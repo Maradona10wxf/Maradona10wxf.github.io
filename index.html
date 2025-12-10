@@ -1,197 +1,645 @@
-<!doctype html>
-<html lang="en" class="js">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Welcome to Xianfeng's Homepage!</title>
-    <meta property="og:locale" content="en-US">
-    <meta property="og:site_name" content="吴显峰">
-    <meta property="og:title" content="Xianfeng Wu's Homepage">
-    <link rel="canonical" href="https://Maradona10wxf.github.io/">
-    <meta property="og:url" content="https://Maradona10wxf.github.io/">
-    <meta property="og:description" content="About Me">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://Maradona10wxf.github.io/css/main.css">
-    <link rel="icon" href="https://Maradona10wxf.github.io/images/icon.jpg" sizes="192x192">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script>
-    <link rel="stylesheet" href="/css/wowchemy.3a3c1ee59d97b4e6d76f2cb0f1d0e41f.css">
-    <script type="application/ld+json">
-        {"@context":"https://schema.org","@type":"WebSite","potentialAction":{"@type":"SearchAction","target":"https://www.yhzhai.com?q={search_term_string}","query-input":"required name=search_term_string"},"url":"https://www.yhzhai.com"}
-    </script>
+    <title>Xianfeng Wu | AI Researcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00f2ff; /* 赛博朋克蓝 */
+            --secondary: #7000ff; /* 深紫 */
+            --bg-color: #050510;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- 全局链接样式修复 --- */
+        /* 这解决了深蓝色链接看不清的问题 */
+        a {
+            color: var(--primary); /* 默认链接颜色改为青色 */
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            color: #ffffff; /* 悬停变白 */
+            text-shadow: 0 0 10px var(--primary); /* 悬停发光 */
+        }
+
+        /* 动态背景 Canvas */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links a {
+            color: var(--text-main); /* 导航栏保持白色 */
+            text-decoration: none;
+            margin-left: 25px;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: none; /* 移除全局发光影响 */
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: none;
+        }
+
+        /* 通用容器 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        /* Hero Section with Avatar */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            flex-shrink: 0;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid rgba(0, 242, 255, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 头像发光光圈 */
+        .avatar-container::after {
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border-radius: 50%;
+            border: 2px dashed var(--primary);
+            animation: spin 10s linear infinite;
+            opacity: 0.5;
+        }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-text h2 {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            animation: fadeInUp 1.2s ease;
+        }
+
+        .typewriter {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-family: 'Courier New', monospace;
+            min-height: 1.5em;
+            animation: fadeInUp 1.4s ease;
+        }
+
+        .social-links {
+            margin-top: 25px;
+            animation: fadeInUp 1.6s ease;
+        }
+
+        .social-links a {
+            color: var(--text-main);
+            font-size: 1.4rem;
+            margin-right: 20px;
+            transition: 0.3s;
+            text-shadow: none;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 8px 25px;
+            margin-top: 25px;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-size: 0.9rem;
+            text-shadow: none;
+        }
+        
+        .btn-sm {
+            padding: 4px 12px;
+            margin-top: 10px;
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: -1;
+            transition: 0.4s;
+        }
+
+        .btn:hover::before { left: 0; }
+        .btn:hover { color: #000; text-shadow: none; }
+
+        /* News Cards */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .date {
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* --- Publications Styles --- */
+        .pub-item {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .pub-item:hover {
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .pub-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .pub-authors {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        
+        .pub-authors strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .pub-venue {
+            font-style: italic;
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        /* Timeline (Experience) */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: rgba(255,255,255,0.1);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            right: -8px;
+            background-color: var(--bg-color);
+            border: 2px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            transition: 0.3s;
+        }
+
+        .left { left: 0; }
+        .right { left: 50%; }
+        .left::before {
+            content: " "; height: 0; position: absolute; top: 18px; width: 0; z-index: 1; right: 30px;
+            border: medium solid var(--card-bg); border-width: 10px 0 10px 10px; border-color: transparent transparent transparent rgba(255,255,255,0.05);
+        }
+        .right::before {
+            content: " "; height: 0; position: absolute; top: 18px; width: 0; z-index: 1; left: 30px;
+            border: medium solid var(--card-bg); border-width: 10px 10px 10px 0; border-color: transparent rgba(255,255,255,0.05) transparent transparent;
+        }
+        .right::after { left: -8px; }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background: var(--card-bg);
+            position: relative;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .timeline-item:hover .timeline-content { background: rgba(255,255,255,0.08); border-color: var(--secondary); }
+        .timeline-item:hover::after { background-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible { opacity: 1; transform: none; }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-content-wrapper { flex-direction: column; text-align: center; gap: 30px; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-text p { margin: 20px auto; }
+            .avatar-container { width: 200px; height: 200px; }
+            
+            .timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-item::before { left: 60px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent white transparent transparent; }
+            .left::after, .right::after { left: 23px; }
+            .right { left: 0; }
+        }
+    </style>
 </head>
 <body>
-    <div class="masthead">
-        <div class="masthead__inner-wrap">
-            <div class="masthead__menu">
-                <nav id="site-nav" class="greedy-nav">
-                    <ul class="visible-links">
-                        <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://Maradona10wxf.github.io">Xianfeng Wu (吴显峰)</a></li>
-                        <li class="masthead__menu-item"><a href="https://Maradona10wxf.github.io">About Me</a></li>
-                        <li class="masthead__menu-item"><a href="https://Maradona10wxf.github.io/content/Publications.html">Publications</a></li>
-                        <li class="masthead__menu-item"><a href="https://Maradona10wxf.github.io/content/CV.html">CV</a></li>
-                    </ul>
-                    <ul class="hidden-links hidden"></ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <div id="main" role="main">
-        <div class="sidebar sticky">
-            <div class="author__avatar">
-                <img src="https://Maradona10wxf.github.io/images/XianfengWu.jpg" alt="Xianfeng Wu">
-            </div>
-            <div class="author__content">
-                <h3 class="author__name">Xianfeng Wu</h3>
-                <p class="author__bio">RA@HKUST</p>
-            </div>
-            <div class="author__urls-wrapper">
-                <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
-                <ul class="author__urls social-icons">
-                    <li><i class="fa fa-fw fa-map-marker"></i> WuHan, China</li>
-                    <li><a href="mailto:wxf20011228@gmail.com"><i class="fas fa-fw fa-envelope"></i> Email</a></li>
-                    <li><a href="https://github.com/XianfengWu01"><i class="fab fa-fw fa-github"></i> Github</a></li>
-                    <li><a href="https://scholar.google.com/citations?user=C9B5JKYAAAAJ&hl=en"><i class="fab fa-fw fa-google"></i> Google Scholar</a></li>
-                </ul>
-            </div>
-        </div>
 
-        <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-            <header>
-                <h1 class="page__title">Welcome to Xianfeng’s Homepage!!</h1>
-            </header>
-            <section class="page__content" itemprop="text">
-                <p>
-                    Xianfeng Wu is a RA at the Division of Arts and Machine Creativity, The Hong Kong University of Science and Technology (HKUST), 
-                    under the supervision of <a href="https://facultyprofiles.hkust.edu.hk/profiles.php?profile=harry-yang-yangharry">Assistant Prof. Harry Yang</a>. 
-                    Here's my <a href="https://scholar.google.com/citations?user=C9B5JKYAAAAJ&hl=en">Google Scholar</a>.
-<!--                     and <a href="https://facultyprofiles.hkust.edu.hk/profiles.php?profile=anyi-rao-anyirao">Assistant Prof. Anyi Rao</a>.  -->
+    <canvas id="canvas-bg"></canvas>
+
+    <nav>
+        <div class="logo">XW.</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#news">News</a>
+            <a href="#publications">Publications</a>
+            <a href="#experience">Experience</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="container hero" id="about">
+        <div class="hero-content-wrapper">
+            <div class="avatar-container">
+                <img src="xianfeng.png" alt="Xianfeng Wu" class="avatar">
+            </div>
+            
+            <div class="hero-text">
+                <h1>Xianfeng Wu</h1>
+                <h2>Research Assistant @ HKPolyU</h2>
+                <div class="typewriter" id="typewriter"></div>
+                <p style="margin-top: 20px; max-width: 600px; color: var(--text-muted);">
+                    Currently working at Department of Computing, The Hong Kong Polytechnic University. 
+                    Passionate about Multi-modal Foundation Models (Generative Models and Unified Models), 3D Vision and AI4Science.
                 </p>
-                <p>My current research interests are in <strong>Multi-modal Foundation model</strong>, <strong>3D Vision</strong>, and <strong>AI4Science</strong>, focusing on physics-constrained generation, reconstruction, and scientific simulations.</p>
                 
-                <h2 style="font-size:40px">What's News</h2>
-                <ul>
-                    <li><strong>2025.03</strong>: Release LightGen, an efficient text2img generation pretrain pipeline based on MAR! Here is the github repo 
-                        <a href="https://github.com/XianfengWu01/LightGen">Lightgen</a>(<a href="https://mp.weixin.qq.com/s/CNZoIxRbOO37rbEgwqLNQg">机器之心</a>, 
-                        <a href="https://mp.weixin.qq.com/s/9dyep_QSeJSZh61jCEzjkg">量子位</a>, 
-                        <a href="https://ais.hkust.edu.hk/whats-happening/news/research-team-led-prof-harry-yang-developed-lightgen-budget-friendly-ai-image">HKUST AIS</a>).</li> 
-                    <li><strong>2024.11</strong>: Received a PhD conditional offer from the Division of Arts and Machine Creativity, The Hong Kong University of Science and Technology.</li>
-                    <li><strong>2024.07</strong>: Joined DNA Lab at HKUST as a RA and a researcher at Everlyn (Startup Stealth).</li>
-                    <li><strong>2024.06</strong>: Delivered a commencement speech as an outstanding undergraduate representative.</li>
-                    <li><strong>2024.06</strong>: Received Bingling Honours Degree.</li>
-                </ul>
-                <h2 style="font-size:40px">Experience</h2>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-lg-8">
-                            <div class="experience">
-                                <!-- Add similar blocks for other experiences -->
-<!--                                 <div class="col py-2">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="exp-title text-muted">incoming Ph.D. student</div>
-                                            <div class="exp-company text-muted"><a href="https://ais.hkust.edu.hk/">Division of Arts and Machine Creativity, HKUST</a></div>
-                                            <div class="text-muted">Feb. 2025 - Present <span>•</span> Clear Water Bay, Hong Kong</div>
-                                            <p>Research on GenAI. Advisor: <a href="https://facultyprofiles.hkust.edu.hk/profiles.php?profile=harry-yang-yangharry">Harry Yang</a>, Co-advisor: <a href="https://facultyprofiles.hkust.edu.hk/profiles.php?profile=anyi-rao-anyirao">Anyi Rao</a></p>
-                                        </div>
-                                    </div>
-                                </div> -->
-
-                                <div class="col py-2">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="exp-title text-muted">RA</div>
-                                            <div class="exp-company text-muted"><a href="https://ais.hkust.edu.hk/">Division of Arts and Machine Creativity, HKUST</a></div>
-                                            <div class="text-muted">July 2024 - Present <span>•</span> Clear Water Bay, Hong Kong</div>
-                                            <p>Research on GenAI. Advisor: <a href="https://facultyprofiles.hkust.edu.hk/profiles.php?profile=harry-yang-yangharry">Harry Yang</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            
-
-                                <div class="col py-2">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="exp-title text-muted">Remote Research Intern</div>
-                                            <div class="exp-company text-muted">
-                                                <a href="https://engineering.buffalo.edu/computer-science-engineering.html" target="_blank">Department of Computer Science and Engineering, University at Buffalo, SUNY</a>
-                                            </div>
-                                            <div class="text-muted">Jan 2023 - June 2024 <span>•</span> NY, USA</div>
-                                            <p>Research on 3D Vision. Advisors: <a href="https://cse.buffalo.edu/~jsyuan/" target="_blank">Junsong Yuan</a> (IEEE Fellow) & <a href="https://tyluann.github.io/" target="_blank">Dr. Tianyu Luan</a>.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                                <div class="col py-2">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="exp-title text-muted">Summer Research Intern</div>
-                                            <div class="exp-company text-muted">
-                                                <a href="https://en-soe.westlake.edu.cn/" target="_blank">School of Engineering at Westlake University</a>
-                                            </div>
-                                            <div class="text-muted">June 2023 - Oct 2023 <span>•</span> Hangzhou, China</div>
-                                            <p>Research on AI4Science. Advisor: <a href="https://en.westlake.edu.cn/faculty/tailin-wu.html" target="_blank">Tailin Wu</a>.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                                <div class="col py-2">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="exp-title text-muted">Research Intern (Remote)</div>
-                                            <div class="exp-company text-muted">
-                                                <a href="https://ischool.illinois.edu" target="_blank">School of Information Sciences, University of Illinois Urbana-Champaign</a>
-                                            </div>
-                                            <div class="text-muted">Dec 2022 – May 2023 <span>•</span> Urbana, IL, USA</div>
-                                            <p>Research on Trustworthy Machine Learning. Advisor: <a href="https://ischool.illinois.edu/people/haohan-wang" target="_blank">Haohan Wang</a>.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                                <div class="col py-2">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="exp-title text-muted">Research Intern (Remote)</div>
-                                            <div class="exp-company text-muted">
-                                                <a href="https://datascience.hku.hk" target="_blank">Institute of Data Science, The University of Hong Kong</a>
-                                            </div>
-                                            <div class="text-muted">Nov 2022 – May 2023 <span>•</span> Pokfulam, Hong Kong</div>
-                                            <p>Research on Privacy Leakage Attack and Protection. Advisor: <a href="https://datascience.hku.hk/people/liangqiong-qu/" target="_blank">Liangqiong Qu</a>.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                                <div class="col py-2">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="exp-title text-muted">Summer Research Intern</div>
-                                            <div class="exp-company text-muted">
-                                                <a href="http://cse.whu.edu.cn/index.htm" target="_blank">School of Cyber Science and Engineering, Wuhan University</a>
-                                            </div>
-                                            <div class="text-muted">Jul 2022 – Dec 2022 <span>•</span> WuHan, China</div>
-                                            <p>Research on Federated Learning and Reinforcement Learning. Advisor: <a href="https://scholar.google.com/citations?user=vp4cbJ4AAAAJ" target="_blank">Libing Wu</a>.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                                <div class="col py-2">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="exp-title text-muted">Undergraduate Researcher</div>
-                                            <div class="exp-company text-muted">
-                                                <a href="https://iir.jhun.edu.cn/" target="_blank">Institute for Interdisciplinary Research, Jianghan University</a>
-                                            </div>
-                                            <div class="text-muted">Sep 2020 – May 2022 <span>•</span> WuHan, China</div>
-                                            <p>Research on 3D Vision and image editing. Advisor: <a href="https://visual-group.netlify.app/author/%E8%B5%96%E9%87%8D%E8%BF%9C/" target="_blank">Zhongyuan Lai</a>.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
+                <div class="social-links">
+                    <a href="mailto:wxf20011228@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="https://github.com/XianfengWu01" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://scholar.google.com/citations?user=C9B5JKYAAAAJ&hl=en" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="https://x.com/XianfengWu10" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
                 </div>
-            </section>
-        </article>
-    </div>
+                <a href="xianfeng_cv.pdf" class="btn" target="_blank">Download CV</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="container fade-in-section" id="news">
+        <h2 class="section-title">Latest News</h2>
+        <div class="news-grid">
+            <div class="card">
+                <span class="date">Dec. 2025</span>
+                <h3>4DLangVGGT Released</h3>
+                <p>Released <a href="https://github.com/hustvl/4DLangVGGT">4DLangVGGT</a>, first feed-forward 4d language field model.</p>
+            </div>
+            <div class="card">
+                <span class="date">Mar. 2025</span>
+                <h3>LightGen Released</h3>
+                <p>Released <a href="https://github.com/XianfengWu01/LightGen">Lightgen</a>, an efficient text2img generation pretrain pipeline based on MAR. Featured in <a href="https://mp.weixin.qq.com/s/CNZoIxRbOO37rbEgwqLNQg">机器之心</a>, 
+                        <a href="https://mp.weixin.qq.com/s/9dyep_QSeJSZh61jCEzjkg">量子位</a> and
+                        <a href="https://ais.hkust.edu.hk/whats-happening/news/research-team-led-prof-harry-yang-developed-lightgen-budget-friendly-ai-image">HKUST AIS</a>.</p>
+            </div>
+            <div class="card">
+                <span class="date">July 2024</span>
+                <h3>Joined AMC</h3>
+                <p>Joined Division of Arts and Machine Creativity, HKUST as a Research Assistant under supervised by <a href="https://facultyprofiles.hkust.edu.hk/profiles.php?profile=harry-yang-yangharry">Assistant Prof. Harry Yang</a>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container fade-in-section" id="publications">
+        <h2 class="section-title">Selected Publications</h2>
+        <div class="pub-item">
+            <div class="pub-title">4DLangVGGT: 4D Language Visual Geometry Grounded Transformer</div>
+            <div class="pub-authors">
+                <strong>Xianfeng Wu</strong>+, Yajing Bai+, Minghan Li, Xianzu Wu, Xueqi Zhao, Zhongyuan Lai, Wenyu Liu, Xinggang Wang* (+Equal Contribution)
+            </div>
+            <div class="pub-venue">Under Review</div>
+            <div class="pub-links">
+                <a href="https://arxiv.org/pdf/2512.05060" class="btn btn-sm"><i class="fas fa-file-pdf"></i>PDF</a>
+                <a href="https://github.com/hustvl/4DLangVGGT/" target="_blank" class="btn btn-sm"><i class="fab fa-github"></i>Code</a>
+                <a href="https://hustvl.github.io/4DLangVGGT/" class="btn btn-sm"><i class="fas fa-globe"></i>Project</a>
+            </div>
+        </div>
+
+        <div class="pub-item">
+            <div class="pub-title">LightGen: An Efficient Text2Img Generation Pretrain Pipeline based on MAR</div>
+            <div class="pub-authors">
+                <strong>Xianfeng Wu</strong>+, Yajing Bai+, Haoze Zheng+, Harold Haodong Chen+, Yexin Liu+, Zihao Wang, Xuran Ma, Wenjie Shu, Xianzu Wu, Harry Yang*, Ser-Nam Lim* (+Equal Contribution)
+            </div>
+            <div class="pub-venue">Arxiv, 2025</div>
+            <div class="pub-links">
+                <a href="https://arxiv.org/pdf/2503.08619" class="btn btn-sm"><i class="fas fa-file-pdf"></i>PDF</a>
+                <a href="https://github.com/XianfengWu01/LightGen" target="_blank" class="btn btn-sm"><i class="fab fa-github"></i>Code</a>
+            </div>
+        </div>
+
+        <div class="pub-item">
+            <div class="pub-title">Model Reveals What to Cache: Profiling-Based Feature Reuse for Video Diffusion Models</div>
+            <div class="pub-authors">
+                Xuran Ma, Yexin Liu, Yaofu Liu, <strong>Xianfeng Wu</strong>, Mingzhe Zheng, Zihao Wang, Ser-Nam Lim, Harry Yang
+            </div>
+            <div class="pub-venue">ICCV25'</div>
+            <div class="pub-links">
+                <a href="https://github.com/GeekGuru123/ProfilingDiT" target="_blank" class="btn btn-sm"><i class="fab fa-github"></i>Code</a>
+            </div>
+        </div>
+
+        <div class="pub-item">
+            <div class="pub-title">Unveiling the Ignorance of MLLMs: Seeing Clearly, Answering Incorrectly</div>
+            <div class="pub-authors">
+                Yexin Liu+, Zhengyang Lian+, Yueze Wang+, <strong>Xianfeng Wu</strong>+, Feilong Tang, Muyang He, Jian Li, Zheng Liu, Harry Yang, Ser-Nam Lim, Bo Zhao* (+Equal Contribution)
+            </div>
+            <div class="pub-venue">CVPR25'</div>
+            <div class="pub-links">
+                <a href="https://github.com/BAAI-DCAI/MMVU" target="_blank" class="btn btn-sm"><i class="fab fa-github"></i>Code</a>
+            </div>
+        </div>
+
+        <div class="pub-item">
+            <div class="pub-title">FSC: Few-point Shape Completion</div>
+            <div class="pub-authors">
+                Xianzu Wu+, <strong>Xianfeng Wu</strong>+, Tianyu Luan, Yajing Bai, Zhongyuan Lai*, Junsong Yuan (+Equal Contribution)
+            </div>
+            <div class="pub-venue">CVPR24'</div>
+            <div class="pub-links">
+                <a href="https://github.com/xianzuwu/FSC" target="_blank" class="btn btn-sm"><i class="fab fa-github"></i>Code</a>
+            </div>
+        </div>
+        
+        <p style="color: var(--text-muted); margin-top: 20px;">*Full publication list available on <a href="https://scholar.google.com/citations?user=C9B5JKYAAAAJ&hl=en" style="color: var(--primary); text-decoration: none;">Google Scholar</a>.</p>
+    </section>
+    
+    <section class="container fade-in-section" id="experience">
+        <h2 class="section-title">Experience</h2>
+        <div class="timeline">
+
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <span class="date">Aug. 2025 - Present</span>
+                    <h3>Remote Research Intern</h3>
+                    <h4>Department of Computer Science, University of North Carolina at Chapel Hill, NC, US</h4>
+                    <p>Advisor: <a href="https://tianlong-chen.github.io/">Assistant Prof. Tianlong Chen</a>.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <span class="date">June 2025 - Present</span>
+                    <h3>Research Intern</h3>
+                    <h4>School of EIC, Huazhong University of Science and Technology, Hubei, China</h4>
+                    <p>Advisor: <a href="https://xwcv.github.io/">Prof. Xinggang Wang</a> & <a href="https://scholar.google.com/citations?user=D7jDk7gAAAAJ&hl=en">Prof. Wenyu Liu</a>.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <span class="date">July 2024 - Present</span>
+                    <h3>Research Assistant</h3>
+                    <h4>Division of Arts and Machine Creativity, HKUST, NT, Hong Kong</h4>
+                    <p>Advisor: <a href="https://facultyprofiles.hkust.edu.hk/profiles.php?profile=harry-yang-yangharry">Assistant Prof. Harry Yang</a>.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <span class="date">Jan. 2023 - June 2024</span>
+                    <h3>Remote Research Intern</h3>
+                    <h4>Department of Computer Science and Engineering, University at Buffalo, NY, US</h4>
+                    <p>Advisors: <a href="https://cse.buffalo.edu/~jsyuan/">Prof. Junsong Yuan</a> & <a href="https://tyluann.github.io/">Dr. Tianyu Luan</a>.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <span class="date">June 2023 - Oct. 2023</span>
+                    <h3>Summer Research Intern</h3>
+                    <h4>School of Engineering, Westlake University, Zhejiang, China</h4>
+                    <p>Advisor: <a href="https://en.westlake.edu.cn/faculty/tailin-wu.html">Assistant Prof. Tailin Wu</a>.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p>© 2025 Xianfeng Wu. Built with Code & Coffee.</p>
+    </footer>
+
+    <script>
+        const textElement = document.getElementById('typewriter');
+        const phrases = ["Multi-modal Foundation Models", "3D Vision & Reconstruction", "AI4Science & Physics-constrained Gen"];
+        let phraseIndex = 0, charIndex = 0, isDeleting = false, typeSpeed = 100;
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            if (isDeleting) { textElement.textContent = currentPhrase.substring(0, charIndex - 1); charIndex--; typeSpeed = 50; } 
+            else { textElement.textContent = currentPhrase.substring(0, charIndex + 1); charIndex++; typeSpeed = 100; }
+            if (!isDeleting && charIndex === currentPhrase.length) { isDeleting = true; typeSpeed = 2000; } 
+            else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; typeSpeed = 500; }
+            setTimeout(type, typeSpeed);
+        }
+        document.addEventListener('DOMContentLoaded', type);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in-section').forEach(section => observer.observe(section));
+
+        const canvas = document.getElementById('canvas-bg'), ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+        class Particle {
+            constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5; this.size = Math.random() * 2 + 1; }
+            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; }
+            draw() { ctx.fillStyle = 'rgba(0, 242, 255, 0.5)'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+        }
+        function initParticles() { particles = []; for (let i = 0; i < 60; i++) particles.push(new Particle()); }
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach((p, index) => {
+                p.update(); p.draw();
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j]; const dx = p.x - p2.x, dy = p.y - p2.y, dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) { ctx.strokeStyle = `rgba(0, 242, 255, ${1 - dist/150})`; ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke(); }
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles(); animateParticles();
+    </script>
 </body>
 </html>
