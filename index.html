@@ -3,45 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xianfeng Wu | AI Researcher</title>
+    <title>Xianfeng Wu | Machine Creativity & Digital Arts</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --text-color: #333333;
-            --text-muted: #666666;
-            --link-color: #1a0dab; /* 经典的学术蓝 */
-            --link-hover: #d14836;
-            --bg-color: #ffffff;
-            --border-color: #eaeaea;
+            --text-color: #3a3a3a;
+            --text-muted: #888888;
+            --link-color: #c07c66; /* 艺术感的陶土/莫兰迪色 */
+            --link-hover: #a05a46;
+            --bg-color: #fcfbf9; /* 宣纸般的暖白背景 */
+            --card-bg: #ffffff;
+            --border-color: #e8e4dc;
+            
+            --heading-font: 'Cormorant Garamond', serif;
+            --body-font: 'Montserrat', sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: var(--body-font);
             color: var(--text-color);
             background-color: var(--bg-color);
-            line-height: 1.6;
+            line-height: 1.7;
             max-width: 900px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 50px 20px;
+            font-weight: 300;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--heading-font);
+            color: #1a1a1a;
+            font-weight: 600;
         }
 
         a {
             color: var(--link-color);
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         a:hover {
             color: var(--link-hover);
-            text-decoration: underline;
         }
 
         /* --- Header & About --- */
         header {
             display: flex;
             align-items: center;
-            gap: 40px;
-            margin-bottom: 50px;
-            padding-bottom: 30px;
+            gap: 50px;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -51,47 +63,56 @@
             border-radius: 50%;
             object-fit: cover;
             flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* 更柔和的高级阴影 */
+            border: 4px solid var(--card-bg);
         }
 
         .bio h1 {
-            margin: 0 0 10px 0;
-            font-size: 2.2rem;
-            color: #000;
+            margin: 0 0 5px 0;
+            font-size: 2.8rem;
+            letter-spacing: 1px;
         }
 
         .bio h2 {
-            margin: 0 0 15px 0;
-            font-size: 1.2rem;
+            margin: 0 0 20px 0;
+            font-size: 1.3rem;
             font-weight: 400;
+            font-style: italic;
             color: var(--text-muted);
+            font-family: var(--heading-font);
+        }
+
+        .bio p {
+            font-size: 1rem;
         }
 
         .social-links {
-            margin-top: 15px;
+            margin-top: 20px;
             font-size: 1.2rem;
+            display: flex;
+            gap: 20px;
         }
 
         .social-links a {
-            margin-right: 15px;
-            color: var(--text-color);
+            color: var(--text-muted);
         }
 
         .social-links a:hover {
             color: var(--link-color);
+            transform: translateY(-2px);
         }
 
         /* --- Sections --- */
         section {
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
         h2.section-title {
-            font-size: 1.5rem;
-            color: #000;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            font-size: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
         }
 
         /* --- News & Experience --- */
@@ -101,41 +122,55 @@
         }
 
         ul.simple-list li {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             display: flex;
-            gap: 15px;
+            gap: 20px;
+            line-height: 1.6;
         }
 
         .date-col {
-            min-width: 100px;
-            font-weight: 600;
-            color: var(--text-muted);
+            min-width: 120px;
+            font-weight: 500;
+            color: var(--link-color); /* 日期使用强调色 */
             font-size: 0.95rem;
+            font-family: var(--heading-font);
+            font-style: italic;
+            font-size: 1.1rem;
         }
 
-        /* --- Publications with Teaser --- */
+        /* --- Publications with Teaser (Gallery Card Style) --- */
         .pub-item {
             display: flex;
-            gap: 25px;
+            gap: 30px;
             margin-bottom: 30px;
             align-items: flex-start;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .pub-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
         }
 
         .pub-teaser {
-            width: 240px;
+            width: 220px;
             flex-shrink: 0;
         }
 
         .pub-teaser img {
             width: 100%;
             border-radius: 6px;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
         }
 
         .pub-teaser img:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
 
         .pub-info {
@@ -143,46 +178,62 @@
         }
 
         .pub-title {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            margin: 0 0 5px 0;
-            color: #000;
+            margin: 0 0 10px 0;
+            color: #1a1a1a;
+            line-height: 1.3;
         }
 
         .pub-authors {
-            font-size: 0.95rem;
-            margin-bottom: 5px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
             color: var(--text-color);
         }
 
         .pub-authors strong {
-            color: #000;
+            color: var(--link-color);
+            font-weight: 500;
         }
 
         .pub-venue {
+            font-family: var(--heading-font);
             font-style: italic;
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .pub-links {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            display: flex;
+            gap: 15px;
         }
 
         .pub-links a {
-            margin-right: 15px;
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 2px;
+        }
+
+        .pub-links a:hover {
+            text-decoration: none;
+            border-bottom: 1px solid var(--link-hover);
         }
 
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 20px 0;
-            margin-top: 50px;
+            padding: 30px 0;
+            margin-top: 60px;
             border-top: 1px solid var(--border-color);
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-family: var(--heading-font);
+            font-style: italic;
+            font-size: 1.1rem;
         }
 
         /* --- Responsive Design --- */
@@ -190,15 +241,19 @@
             header {
                 flex-direction: column;
                 text-align: center;
-                gap: 20px;
+                gap: 25px;
+            }
+            .social-links {
+                justify-content: center;
             }
             .pub-item {
                 flex-direction: column;
-                gap: 15px;
+                gap: 20px;
+                padding: 20px;
             }
             .pub-teaser {
                 width: 100%;
-                max-width: 400px;
+                max-width: 100%;
             }
             ul.simple-list li {
                 flex-direction: column;
@@ -212,11 +267,11 @@
     <header>
         <img src="src/xianfeng.jpg" alt="Xianfeng Wu" class="avatar">
         <div class="bio">
-            <h1>Xianfeng Wu (吴显峰)</h1>
+            <h1>Xianfeng Wu</h1>
             <h2>Research Intern</h2>
             <p>
                 Currently, I am working closely with <a href="https://tianlong-chen.github.io/" target="_blank">Tianlong Chen</a>. 
-                My research interests lie in Multi-modal Foundation Models, 3D Vision, and AI4Science. 
+                My research interests lie in <strong>Machine Creativity and Digital Arts</strong>. 
             </p>
             <div class="social-links">
                 <a href="mailto:xianfeng@unc.edu" title="Email"><i class="fas fa-envelope"></i></a>
@@ -228,7 +283,7 @@
         </div>
     </header>
 
-    <section id="news">
+    <!-- <section id="news">
         <h2 class="section-title">Latest News</h2>
         <ul class="simple-list">
             <li>
@@ -239,12 +294,8 @@
                 <div class="date-col">Mar 2025</div>
                 <div>Released <a href="https://github.com/XianfengWu01/LightGen">LightGen</a>, featured in <a href="https://mp.weixin.qq.com/s/CNZoIxRbOO37rbEgwqLNQg">机器之心</a> and <a href="https://mp.weixin.qq.com/s/9dyep_QSeJSZh61jCEzjkg">量子位</a>.</div>
             </li>
-            <!-- <li>
-                <div class="date-col">Jul 2024</div>
-                <div>Joined the Division of Arts and Machine Creativity, HKUST as a Research Assistant.</div>
-            </li> -->
         </ul>
-    </section>
+    </section> -->
 
     <section id="publications">
         <h2 class="section-title">Selected Publications</h2>
@@ -259,11 +310,6 @@
                     Haoze Zheng*, Zihao Wang*, <strong>Xianfeng Wu*</strong>, Yajing Bai, Yexin Liu, Yun Li, Xiaogang Xu, Harry Yang
                 </div>
                 <div class="pub-venue">CVPR'26</div>
-                <!-- <div class="pub-links">
-                    <a href="https://arxiv.org/pdf/2512.05060"><i class="fas fa-file-pdf"></i> PDF</a>
-                    <a href="https://github.com/hustvl/4DLangVGGT/"><i class="fab fa-github"></i> Code</a>
-                    <a href="https://hustvl.github.io/4DLangVGGT/"><i class="fas fa-globe"></i> Project</a>
-                </div> -->
             </div>
         </div>
         
@@ -325,7 +371,7 @@
             <div class="pub-info">
                 <h3 class="pub-title">Unveiling the Ignorance of MLLMs: Seeing Clearly, Answering Incorrectly</h3>
                 <div class="pub-authors">
-                    Yexin Liu*, Zhengyang Lian*, Yueze Wang*, <strong>Xianfeng Wu*</strong>, , et al.
+                    Yexin Liu*, Zhengyang Lian*, Yueze Wang*, <strong>Xianfeng Wu*</strong>, et al.
                 </div>
                 <div class="pub-venue">CVPR'25</div>
                 <div class="pub-links">
@@ -350,7 +396,7 @@
             </div>
         </div>
         
-        <p style="margin-top: 20px;">
+        <p style="margin-top: 20px; font-size: 0.9rem;">
             * Full publication list available on <a href="https://scholar.google.com/citations?user=C9B5JKYAAAAJ&hl=en">Google Scholar</a>.
         </p>
     </section>
@@ -358,14 +404,6 @@
     <section id="experience">
         <h2 class="section-title">Experience</h2>
         <ul class="simple-list">
-            <!-- <li>
-                <div class="date-col">Sep 2025 - Present</div>
-                <div>
-                    <strong>Research Assistant</strong><br>
-                    Department of Computing, HKPolyU<br>
-                    <span style="color: var(--text-muted); font-size: 0.9rem;">Advisor: Prof. Lei Zhang</span>
-                </div>
-            </li> -->
             <li>
                 <div class="date-col">Aug 2025 - Present</div>
                 <div>
@@ -402,10 +440,8 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 Xianfeng Wu.</p>
+        <p>&copy; 2026 Xianfeng Wu. Crafted with creativity.</p>
     </footer>
 
 </body>
 </html>
-
-
